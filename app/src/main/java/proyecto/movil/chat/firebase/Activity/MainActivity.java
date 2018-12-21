@@ -1,25 +1,31 @@
-package piazzoli.kevin.com.firebasechat.Activity;
+package proyecto.movil.chat.firebase.Activity;
 
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.Image;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -34,11 +40,11 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import piazzoli.kevin.com.firebasechat.AdapterMensajes;
-import piazzoli.kevin.com.firebasechat.Entidades.MensajeEnviar;
-import piazzoli.kevin.com.firebasechat.Entidades.MensajeRecibir;
-import piazzoli.kevin.com.firebasechat.Entidades.Usuario;
-import piazzoli.kevin.com.firebasechat.R;
+import proyecto.movil.chat.firebase.AdapterMensajes;
+import proyecto.movil.chat.firebase.Entidades.MensajeEnviar;
+import proyecto.movil.chat.firebase.Entidades.MensajeRecibir;
+import proyecto.movil.chat.firebase.Entidades.Usuario;
+import proyecto.movil.chat.firebase.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -60,9 +66,11 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private String NOMBRE_USUARIO;
+    private String FOTO_PERFIL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -90,14 +98,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 databaseReference.push().setValue(new MensajeEnviar(txtMensaje.getText().toString(),NOMBRE_USUARIO,fotoPerfilCadena,"1", ServerValue.TIMESTAMP));
                 txtMensaje.setText("");
-            }
-        });
-
-        cerrarSesion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                returnLogin();
             }
         });
 
@@ -159,6 +159,8 @@ public class MainActivity extends AppCompatActivity {
 
         verifyStoragePermissions(this);
 
+
+
     }
 
     private void setScrollbar(){
@@ -191,26 +193,47 @@ public class MainActivity extends AppCompatActivity {
             Uri u = data.getData();
             storageReference = storage.getReference("imagenes_chat");//imagenes_chat
             final StorageReference fotoReferencia = storageReference.child(u.getLastPathSegment());
-            fotoReferencia.putFile(u).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            fotoReferencia.putFile(u).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Uri u = taskSnapshot.getDownloadUrl();
-                    MensajeEnviar m = new MensajeEnviar(NOMBRE_USUARIO+" te ha enviado una foto",u.toString(),NOMBRE_USUARIO,fotoPerfilCadena,"2",ServerValue.TIMESTAMP);
-                    databaseReference.push().setValue(m);
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if(!task.isSuccessful()){
+                        throw task.getException();
+                    }
+                    return fotoReferencia.getDownloadUrl();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if(task.isSuccessful()){
+                        Uri uri = task.getResult();
+                        MensajeEnviar m = new MensajeEnviar(NOMBRE_USUARIO+" ha enviado una foto",uri.toString(),NOMBRE_USUARIO,fotoPerfilCadena,"2",ServerValue.TIMESTAMP);
+                        databaseReference.push().setValue(m);
+                    }
                 }
             });
         }else if(requestCode == PHOTO_PERFIL && resultCode == RESULT_OK){
             Uri u = data.getData();
             storageReference = storage.getReference("foto_perfil");//imagenes_chat
             final StorageReference fotoReferencia = storageReference.child(u.getLastPathSegment());
-            fotoReferencia.putFile(u).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+
+            fotoReferencia.putFile(u).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Uri u = taskSnapshot.getDownloadUrl();
-                    fotoPerfilCadena = u.toString();
-                    MensajeEnviar m = new MensajeEnviar(NOMBRE_USUARIO+" ha actualizado su foto de perfil",u.toString(),NOMBRE_USUARIO,fotoPerfilCadena,"2",ServerValue.TIMESTAMP);
-                    databaseReference.push().setValue(m);
-                    Glide.with(MainActivity.this).load(u.toString()).into(fotoPerfil);
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if(!task.isSuccessful()){
+                        throw task.getException();
+                    }
+                    return fotoReferencia.getDownloadUrl();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if(task.isSuccessful()){
+                        Uri uri = task.getResult();
+                        fotoPerfilCadena = uri.toString();
+                        MensajeEnviar m = new MensajeEnviar(NOMBRE_USUARIO+" ha actualizado su foto de perfil",uri.toString(),NOMBRE_USUARIO,fotoPerfilCadena,"2",ServerValue.TIMESTAMP);
+                        databaseReference.push().setValue(m);
+                        Glide.with(MainActivity.this).load(uri.toString()).into(fotoPerfil);
+                    }
                 }
             });
         }
@@ -238,12 +261,27 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }else{
-            returnLogin();
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            finish();
         }
     }
 
-    private void returnLogin(){
-        startActivity(new Intent(MainActivity.this, LoginActivity.class));
-        finish();
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.cerrarSesion:
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                finish();
+                return true;
+            default:
+                return true;
+        }
     }
 }

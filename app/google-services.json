@@ -39,17 +39,17 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:446702933308:android:4a2f6e82a2990eb8",
+        "mobilesdk_app_id": "1:446702933308:android:f7358347a6abd5c0",
         "android_client_info": {
-          "package_name": "piazzoli.kevin.com.firebasechat"
+          "package_name": "proyecto.movil.chat.firebase"
         }
       },
       "oauth_client": [
         {
-          "client_id": "446702933308-b2ujsq39sjj3u8ja9m9opq2h64mi6p99.apps.googleusercontent.com",
+          "client_id": "446702933308-u38j09bl6ekbrqkbgadc3341jlcec01b.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "piazzoli.kevin.com.firebasechat",
+            "package_name": "proyecto.movil.chat.firebase",
             "certificate_hash": "9c65ff93cd6b8e3592359574e8401d7f44e28eeb"
           }
         },

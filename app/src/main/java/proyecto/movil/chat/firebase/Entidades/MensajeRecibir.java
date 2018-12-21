@@ -1,6 +1,4 @@
-package piazzoli.kevin.com.firebasechat.Entidades;
-
-import piazzoli.kevin.com.firebasechat.Entidades.Mensaje;
+package proyecto.movil.chat.firebase.Entidades;
 
 /**
  * Created by user on 05/09/2017. 05

@@ -1,4 +1,4 @@
-package piazzoli.kevin.com.firebasechat;
+package proyecto.movil.chat.firebase;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("piazzoli.kevin.com.firebasechat", appContext.getPackageName());
+        assertEquals("proyecto.movil.chat.firebase", appContext.getPackageName());
     }
 }

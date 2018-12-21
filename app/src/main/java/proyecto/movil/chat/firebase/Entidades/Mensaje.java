@@ -1,4 +1,4 @@
-package piazzoli.kevin.com.firebasechat.Entidades;
+package proyecto.movil.chat.firebase.Entidades;
 
 /**
  * Created by user on 04/09/2017. 04

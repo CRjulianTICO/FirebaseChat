@@ -1,4 +1,4 @@
-package piazzoli.kevin.com.firebasechat;
+package proyecto.movil.chat.firebase;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import piazzoli.kevin.com.firebasechat.Entidades.MensajeRecibir;
+import proyecto.movil.chat.firebase.Entidades.MensajeRecibir;
 
 /**
  * Created by user on 04/09/2017. 04

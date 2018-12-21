@@ -1,4 +1,4 @@
-package piazzoli.kevin.com.firebasechat;
+package proyecto.movil.chat.firebase;
 
 import org.junit.Test;
 

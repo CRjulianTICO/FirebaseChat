@@ -1,15 +1,16 @@
-package piazzoli.kevin.com.firebasechat.Activity;
+package proyecto.movil.chat.firebase.Activity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -18,8 +19,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import piazzoli.kevin.com.firebasechat.Entidades.Usuario;
-import piazzoli.kevin.com.firebasechat.R;
+import de.hdodenhof.circleimageview.CircleImageView;
+import proyecto.movil.chat.firebase.Entidades.Usuario;
+import proyecto.movil.chat.firebase.R;
 
 /**
  * Created by user on 19/02/2018. 19
@@ -31,6 +33,7 @@ public class RegistroActivity extends AppCompatActivity {
     private Button btnRegistrar;
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
+    private ImageView fotoPerfil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,7 @@ public class RegistroActivity extends AppCompatActivity {
         txtContraseña = (EditText) findViewById(R.id.idRegistroContraseña);
         txtContraseñaRepetida = (EditText) findViewById(R.id.idRegistroContraseñaRepetida);
         btnRegistrar = (Button) findViewById(R.id.idRegistroRegistrar);
+        fotoPerfil = (ImageView)findViewById(R.id.imageView);
 
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
@@ -58,7 +62,7 @@ public class RegistroActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         // Sign in success, update UI with the signed-in user's information
-                                        Toast.makeText(RegistroActivity.this, "Se registro correctamente.", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(RegistroActivity.this, "Se ha registrado correctamente.", Toast.LENGTH_SHORT).show();
                                         Usuario usuario = new Usuario();
                                         usuario.setCorreo(correo);
                                         usuario.setNombre(nombre);
@@ -73,13 +77,12 @@ public class RegistroActivity extends AppCompatActivity {
                                 }
                             });
                 }else{
-                    Toast.makeText(RegistroActivity.this, "Validaciones funcionando.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegistroActivity.this, "Datos incorrectos", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
     }
-
     private boolean isValidEmail(CharSequence target) {
         return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }

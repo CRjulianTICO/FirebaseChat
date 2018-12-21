@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">FireBaseChat</string>
+    <string name="Reg">¿No tiene una cuenta?</string>
+    <string name="Reg2">Registrarse</string>
+    <string name="Log">Iniciar sesión</string>
+    <string name="Log2">Cerrar sesión</string>
+    <string name="Nombre">Nombre</string>
+    <string name="Correo">Correo</string>
+    <string name="Cont">Contraseña</string>
+    <string name="Cont2">Repetir contraseña</string>
 </resources>

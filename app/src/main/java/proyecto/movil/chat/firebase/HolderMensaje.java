@@ -1,4 +1,4 @@
-package piazzoli.kevin.com.firebasechat;
+package proyecto.movil.chat.firebase;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
 
 /**
  * Created by user on 04/09/2017. 04
