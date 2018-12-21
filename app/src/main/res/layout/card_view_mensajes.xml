@@ -17,7 +17,7 @@
                 android:id="@+id/fotoPerfilMensaje"
                 android:layout_width="24sp"
                 android:layout_height="24sp"
-                android:src="@mipmap/ic_launcher"
+                android:src="@mipmap/user"
             />
         </LinearLayout>
         <LinearLayout

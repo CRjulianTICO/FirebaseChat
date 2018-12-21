@@ -8,4 +8,8 @@
     <string name="Correo">Correo</string>
     <string name="Cont">Contraseña</string>
     <string name="Cont2">Repetir contraseña</string>
+    <string name="Env">Enviar</string>
+    <string name="Msg">Escribe un mensaje</string>
+    <string name="Bienv">Bienvenido.</string>
+
 </resources>

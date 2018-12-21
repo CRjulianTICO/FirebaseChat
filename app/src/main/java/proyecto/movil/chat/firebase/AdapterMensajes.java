@@ -52,7 +52,7 @@ public class AdapterMensajes extends RecyclerView.Adapter<HolderMensaje> {
             holder.getMensaje().setVisibility(View.VISIBLE);
         }
         if(listMensaje.get(position).getFotoPerfil().isEmpty()){
-            holder.getFotoMensajePerfil().setImageResource(R.mipmap.ic_launcher);
+            holder.getFotoMensajePerfil().setImageResource(R.mipmap.user);
         }else{
             Glide.with(c).load(listMensaje.get(position).getFotoPerfil()).into(holder.getFotoMensajePerfil());
         }
